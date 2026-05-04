@@ -1,23 +1,36 @@
 FROM node:20-alpine AS builder
+
 WORKDIR /app
+
+RUN apk add --no-cache openssl
+
 COPY package*.json ./
+COPY prisma ./prisma
+
 RUN npm ci
-COPY . .
+
+COPY tsconfig.json ./
+COPY src ./src
+COPY scripts ./scripts
+
 RUN npm run build
 
-FROM node:20-alpine AS runtime
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --omit=dev
-COPY --from=builder /app/dist ./dist
-COPY prisma ./prisma
-RUN npx prisma generate
 
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
+FROM node:20-alpine AS runtime
+
+WORKDIR /app
+
+RUN apk add --no-cache openssl
+
+COPY package*.json ./
+COPY prisma ./prisma
+
+RUN npm ci --omit=dev
+
+COPY --from=builder /app/dist ./dist
+
+ENV NODE_ENV=production
 
 EXPOSE 3000
-HEALTHCHECK --interval=30s --timeout=5s \
-  CMD wget -qO- http://localhost:3000/health || exit 1
 
-CMD ["sh", "-c", "npx prisma db push && node dist/server.js"]
+CMD ["npm", "start"]
