@@ -1,0 +1,52 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Run tests
+        env:
+          DATABASE_URL: file:./test.db
+          JWT_SECRET: test-secret-key-at-least-32-chars-long!
+          NODE_ENV: test
+        run: npm test
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        if: always()
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t robomonitor-ts:${{ github.sha }} .
+      - name: Smoke test container
+        env:
+          DATABASE_URL: file:./smoke.db
+          JWT_SECRET: smoke-test-secret-key-min-32chars!!
+        run: |
+          docker run -d --name smoke -p 3000:3000 \
+            -e DATABASE_URL="file:./smoke.db" \
+            -e JWT_SECRET="smoke-test-secret-key-min-32chars!!" \
+            robomonitor-ts:${{ github.sha }}
+          sleep 8
+          curl --retry 5 --retry-delay 2 http://localhost:3000/health
+          docker stop smoke

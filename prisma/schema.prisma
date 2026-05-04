@@ -1,0 +1,84 @@
+// prisma/schema.prisma
+// SQLite in dev (zero-setup), swap to postgresql for production
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  username       String   @unique
+  email          String   @unique
+  hashedPassword String
+  isActive       Boolean  @default(true)
+  isSuperuser    Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  robots Robot[]
+}
+
+model Robot {
+  id          Int          @id @default(autoincrement())
+  name        String
+  model       String
+  serial      String       @unique
+  description String?
+  status      String  @default("OFFLINE")
+  ownerId     Int
+  createdAt   DateTime     @default(now())
+  lastSeen    DateTime?
+
+  owner   User     @relation(fields: [ownerId], references: [id])
+  sensors Sensor[]
+  alerts  Alert[]
+}
+
+model Sensor {
+  id      Int        @id @default(autoincrement())
+  robotId Int
+  name    String
+  type    String
+  unit    String
+  minVal  Float?
+  maxVal  Float?
+
+  robot    Robot     @relation(fields: [robotId], references: [id], onDelete: Cascade)
+  readings Reading[]
+}
+
+model Reading {
+  id           Int      @id @default(autoincrement())
+  sensorId     Int
+  value        Float
+  timestamp    DateTime @default(now())
+  isAnomaly    Boolean  @default(false)
+  anomalyScore Float?
+
+  sensor Sensor @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+
+  @@index([sensorId])
+  @@index([timestamp])
+}
+
+model Alert {
+  id           Int           @id @default(autoincrement())
+  robotId      Int
+  sensorId     Int?
+  severity     String
+  message      String
+  value        Float?
+  threshold    Float?
+  acknowledged Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+
+  robot Robot @relation(fields: [robotId], references: [id], onDelete: Cascade)
+
+  @@index([robotId])
+  @@index([createdAt])
+}
+

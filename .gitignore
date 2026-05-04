@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+*.db
+*.db-journal
+coverage/
+.nyc_output/
+prisma/migrations/
+.env
+node_modules
+dev.db
