@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "prisma generate && tsc",
-    "start": "node dist/server.js",
+    "start": "prisma db push && node dist/server.js",
     "postinstall": "prisma generate",
     "test": "vitest run tests/unit.test.ts --reporter=verbose",
     "test:watch": "vitest tests/unit.test.ts",
