@@ -1,8 +1,7 @@
 # RoboMonitor API
 
-> **Production-grade robot telemetry API** — real-time sensor ingestion, ML anomaly detection, WebSocket streaming, JWT auth, Prisma ORM, Docker deployment.
+> **Production-grade robot telemetry API** - real-time sensor ingestion, ML anomaly detection, WebSocket streaming, JWT auth, Prisma ORM, Docker deployment.
 
-(https://github.com/adeemazad/robomonitor-api/actions)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue.svg)](https://typescriptlang.org)
 [![Node](https://img.shields.io/badge/Node-20-green.svg)](https://nodejs.org)
 [![Tests](https://img.shields.io/badge/tests-19%20passing-brightgreen)]()
@@ -34,7 +33,7 @@ POST /api/v1/robots/:id/readings
 │                                                        │
 │  1. Ownership + sensor validation                      │
 │  2. Anomaly detection (Z-score + IQR + CUSUM)          │
-│  3. Persist reading + alert to SQLite/PostgreSQL        │
+│  3. Persist reading + alert to SQLite/PostgreSQL       │
 │  4. Push WS event to subscribed clients                │
 └────────────────────────────────────────────────────────┘
         │                         │
@@ -241,19 +240,5 @@ datasource db {
 
 Then: `npx prisma migrate dev --name init`
 
----
-
-## Future improvements (mention in interviews)
-
-- **Rate limiting** per user/IP via `@fastify/rate-limit`
-- **Redis pub/sub** for horizontal scaling of WebSocket broadcasts across multiple instances
-- **TimescaleDB** hypertables for automatic time-series partitioning at scale
-- **Isolation Forest** (ONNX model) for multivariate anomaly detection
-- **MQTT ingestion** for direct integration with ROS2 and industrial sensors
-- **Grafana dashboard** via the existing PostgreSQL connection
 
 ---
-
-## License
-
-MIT
