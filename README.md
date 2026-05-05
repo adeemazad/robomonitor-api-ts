@@ -1,8 +1,8 @@
-# 🤖 RoboMonitor API
+# RoboMonitor API
 
 > **Production-grade robot telemetry API** — real-time sensor ingestion, ML anomaly detection, WebSocket streaming, JWT auth, Prisma ORM, Docker deployment.
 
-[![CI](https://github.com/YOUR_USERNAME/robomonitor-api/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/robomonitor-api/actions)
+[![CI](https://github.com/adeemazad/robomonitor-api/actions/workflows/ci.yml/badge.svg)](https://github.com/adeemazad/robomonitor-api/actions)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue.svg)](https://typescriptlang.org)
 [![Node](https://img.shields.io/badge/Node-20-green.svg)](https://nodejs.org)
 [![Tests](https://img.shields.io/badge/tests-19%20passing-brightgreen)]()
@@ -251,14 +251,6 @@ Then: `npx prisma migrate dev --name init`
 - **Isolation Forest** (ONNX model) for multivariate anomaly detection
 - **MQTT ingestion** for direct integration with ROS2 and industrial sensors
 - **Grafana dashboard** via the existing PostgreSQL connection
-
----
-
-## CV bullet points
-
-> "Built a production-grade REST + WebSocket API in TypeScript/Node.js for real-time robot sensor telemetry, featuring a custom ML anomaly detection pipeline (Z-score + IQR + CUSUM), JWT authentication, Prisma ORM, structured Pino logging, Zod validation, and Docker deployment."
-
-> "Implemented a stateless, multi-detector anomaly detection engine in pure TypeScript using ring buffers for O(1) rolling statistics — no Python or ML framework dependency."
 
 ---
 
