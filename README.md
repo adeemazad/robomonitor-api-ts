@@ -1,7 +1,5 @@
 # RoboMonitor API
 
-> **Production-grade robot telemetry API** - real-time sensor ingestion, ML anomaly detection, WebSocket streaming, JWT auth, Prisma ORM, Docker deployment.
-
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue.svg)](https://typescriptlang.org)
 [![Node](https://img.shields.io/badge/Node-20-green.svg)](https://nodejs.org)
 [![Tests](https://img.shields.io/badge/tests-19%20passing-brightgreen)]()
