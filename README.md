@@ -25,9 +25,9 @@ wscat -c ws://localhost:3000/ws/demo
 ## Architecture
 
 ```
-POST /api/v1/robots/:id/readings
-        │
-        ▼
+             POST /api/v1/robots/:id/readings
+                           │
+                           ▼
 ┌────────────────────────────────────────────────────────┐
 │              Ingestion Pipeline (per reading)          │
 │                                                        │
