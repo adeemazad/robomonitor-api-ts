@@ -117,7 +117,7 @@ curl http://localhost:3000/api/v1/robots/1/alerts \
 
 ---
 
-## Anomaly detection — how it works
+## Anomaly detection - how it works
 
 Three independent detectors run on every reading. A reading is flagged **anomalous when ≥2 agree**.
 
